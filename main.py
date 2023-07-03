@@ -6,6 +6,7 @@ import re
 @functions_framework.http
 def get_net_salary(request):
     request_json = request.get_json(silent=True)
+    print(request_json)
     region = os.getenv("REGION")
     ral = 39000
     net_salary, taxes = scrape_salary(int(ral), region)
