@@ -4,7 +4,7 @@ steps:
   - gcloud
   - functions
   - deploy
-  - net-salary=calculator
+  - net-salary-calculator
   - --region=europe-west1
   - --source=.
   - --trigger-http
