@@ -15,12 +15,12 @@ def get_net_salary(request):
 
 
 def message_builder(ral, net_salary, taxes, region):
-    return f"""Stipendio netto in {region} con una RAL di {ral} €.
--   Netto Annuo: {net_salary}
--   Tasse: {taxes}
--   Netto 12M: {round(net_salary / 12)}
--   Netto 13M: {round(net_salary / 13)}
--   Netto 14M: {round(net_salary / 14)}
+    return f"""Stipendio netto in {region} con una RAL di {ral:,} €.
+-   Netto Annuo: {net_salary:,}
+-   Tasse: {taxes:,}
+-   Netto 12M: {round(net_salary / 12):,}
+-   Netto 13M: {round(net_salary / 13):,}
+-   Netto 14M: {round(net_salary / 14):,}
     """
 
 
