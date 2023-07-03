@@ -34,9 +34,9 @@ def send_tgram_message(message):
 def scrape_salary(ral, region):
     url = f"https://www.pmi.it/servizi/292472/calcolo-stipendio-netto.html?step=2&ral={ral}&reg={region}&com=0.8&car=no&emp=privato&hw=no&toc=ind&tow=no&child_noau=0&child_au=0&childh=0&childcharge=100&family=0&monthlypay=14&days=365"
     r = requests.get(url)
-    if r != 200:
-        raise ValueError(f"Error with request {url}")
-    pattern = r'<span\\sid="netto-anno"\\sclass="income-net">([\\d|\\.]+)\\s€</span>'
+    print(url)
+    print(r.text)
+    pattern = r'<span\sid=\"netto-anno\"\sclass=\"income-net\">([\d|\.]+)\s€</span>'
     if match := re.search(pattern, r.text):
         value = match.group(1)
         cleaned_value = value.replace('.', '')
