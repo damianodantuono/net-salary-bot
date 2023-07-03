@@ -15,5 +15,5 @@ steps:
   - --entry-point=get_net_salary
   - --max-instances=10
   - --set-secrets=TBOT_TOKEN=tbot-net-salary-token:1
-  - --set-env-vars=REGION=${_REGION}
+  - --set-env-vars=REGION=${_REGION},CHAT_ID=${_CHAT_ID}
   - --timeout=540s
