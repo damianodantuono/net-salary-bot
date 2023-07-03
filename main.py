@@ -26,7 +26,7 @@ def message_builder(ral, net_salary, taxes, region):
     net_salary_13M = f"{round(net_salary / 13):,.2f} €"
     net_salary_14M = f"{round(net_salary / 14):,.2f} €"
     return f"""Stipendio netto in {region} con una RAL di {ral_print}.
--   Netto Annuo: {net_salary}
+-   Netto Annuo: {net_salary_print}
 -   Tasse: {taxes_print}
 -   Netto 12M: {net_salary_12M}
 -   Netto 13M: {net_salary_13M}
