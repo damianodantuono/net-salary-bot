@@ -6,22 +6,31 @@ import re
 @functions_framework.http
 def get_net_salary(request):
     request_json = request.get_json(silent=True)
-    print(request_json)
-    region = os.getenv("REGION")
-    ral = 39000
-    net_salary, taxes = scrape_salary(int(ral), region)
-    message = message_builder(ral, net_salary, taxes, region)
-    send_tgram_message(message)
+    request_dict = dict(request_json)
+    input_message = request_dict['message']['text']
+    message_pattern = r'/ral\s(\d+)'
+    if match := re.search(message_pattern, input_message):
+        region = os.getenv("REGION")
+        ral = int(match.group(1))
+        net_salary, taxes = scrape_salary(ral, region)
+        message = message_builder(ral, net_salary, taxes, region)
+        send_tgram_message(message)
     return 'Ok'
 
 
 def message_builder(ral, net_salary, taxes, region):
-    return f"""Stipendio netto in {region} con una RAL di {ral:,} €.
--   Netto Annuo: {net_salary:,}
--   Tasse: {taxes:,}
--   Netto 12M: {round(net_salary / 12):,}
--   Netto 13M: {round(net_salary / 13):,}
--   Netto 14M: {round(net_salary / 14):,}
+    ral_print = f"{ral:,.2f} €"
+    taxes_print = f"{taxes:,.2f} €"
+    net_salary_print = f"{net_salary:,.2f} €"
+    net_salary_12M = f"{round(net_salary / 12):,.2f} €"
+    net_salary_13M = f"{round(net_salary / 13):,.2f} €"
+    net_salary_14M = f"{round(net_salary / 14):,.2f} €"
+    return f"""Stipendio netto in {region} con una RAL di {ral_print}.
+-   Netto Annuo: {net_salary}
+-   Tasse: {taxes_print}
+-   Netto 12M: {net_salary_12M}
+-   Netto 13M: {net_salary_13M}
+-   Netto 14M: {net_salary_14M}
     """
 
 
@@ -35,8 +44,6 @@ def send_tgram_message(message):
 def scrape_salary(ral, region):
     url = f"https://www.pmi.it/servizi/292472/calcolo-stipendio-netto.html?step=2&ral={ral}&reg={region}&com=0.8&car=no&emp=privato&hw=no&toc=ind&tow=no&child_noau=0&child_au=0&childh=0&childcharge=100&family=0&monthlypay=14&days=365"
     r = requests.get(url)
-    print(url)
-    print(r.text)
     pattern = r'<span\sid=\"netto-anno\"\sclass=\"income-net\">([\d|\.]+)\s€</span>'
     if match := re.search(pattern, r.text):
         value = match.group(1)
