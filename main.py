@@ -7,7 +7,7 @@ import re
 def get_net_salary(request):
     request_json = request.get_json(silent=True)
     request_dict = dict(request_json)
-    print(request_dict)
+    chat_id = request_dict['message']['chat']['id']
     input_message = request_dict['message']['text']
     message_pattern = r'/ral\s(\d+)'
     if match := re.search(message_pattern, input_message):
@@ -15,7 +15,7 @@ def get_net_salary(request):
         ral = int(match.group(1))
         net_salary, taxes = scrape_salary(ral, region)
         message = message_builder(ral, net_salary, taxes, region)
-        send_tgram_message(message)
+        send_tgram_message(message, chat_id)
     return 'Ok'
 
 
@@ -35,9 +35,9 @@ def message_builder(ral, net_salary, taxes, region):
     """
 
 
-def send_tgram_message(message):
+def send_tgram_message(message, chat_id):
     url = f"https://api.telegram.org/bot{os.getenv('TBOT_TOKEN')}/sendMessage"
-    r = requests.get(url, {'chat_id': os.getenv('CHAT_ID'), 'text': message})
+    r = requests.get(url, {'chat_id': chat_id, 'text': message})
     if r.status_code != 200:
         raise ValueError(f"Cannot send message {message}")
 
