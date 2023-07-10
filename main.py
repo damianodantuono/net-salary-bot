@@ -7,6 +7,7 @@ import re
 def get_net_salary(request):
     request_json = request.get_json(silent=True)
     request_dict = dict(request_json)
+    print(request_dict)
     input_message = request_dict['message']['text']
     message_pattern = r'/ral\s(\d+)'
     if match := re.search(message_pattern, input_message):
