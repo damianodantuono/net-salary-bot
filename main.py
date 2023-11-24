@@ -9,10 +9,11 @@ def get_net_salary(request):
     request_dict = dict(request_json)
     chat_id = request_dict['message']['chat']['id']
     input_message = request_dict['message']['text']
-    message_pattern = r'/ral\s(\d+)'
-    if match := re.search(message_pattern, input_message):
+    trimmed_message = input_message.strip()
+    message_pattern = r'(/ral\s)(\d+)'
+    if match := re.search(message_pattern, trimmed_message):
         region = os.getenv("REGION")
-        ral = int(match.group(1))
+        ral = int(match.group(2))
         net_salary, taxes = scrape_salary(ral, region)
         message = message_builder(ral, net_salary, taxes, region)
         send_tgram_message(message, chat_id)
