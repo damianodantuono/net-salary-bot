@@ -10,7 +10,7 @@ def get_net_salary(request):
     chat_id = request_dict['message']['chat']['id']
     input_message = request_dict['message']['text']
     trimmed_message = input_message.strip()
-    message_pattern = r'(/ral\s)(\d+)'
+    message_pattern = r'(/ral\s)?(\d+)'
     if match := re.search(message_pattern, trimmed_message):
         region = os.getenv("REGION")
         ral = int(match.group(2))
