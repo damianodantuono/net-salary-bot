@@ -8,4 +8,4 @@ jobs:
   say-hello:
     runs-on: google/cloud-sdk
     steps:
-      run: echo "Hello World!"
+      - run: echo "Hello World!"
