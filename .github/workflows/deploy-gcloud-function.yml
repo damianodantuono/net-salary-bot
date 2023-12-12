@@ -6,6 +6,6 @@ on:
 
 jobs:
   say-hello:
-    runs-on: ubuntu-latest
+    runs-on: docker://google/cloud-sdk:alpine
     steps:
       - run: echo "Hello World!"
