@@ -1,11 +1,32 @@
-name: deploy-to-gcloud
+name: Deploy Cloud Function
+
 on:
   push:
     branches:
       - main
 
 jobs:
-  say-hello:
-    runs-on: docker://google/cloud-sdk:alpine
+  deploy:
+    runs-on: ubuntu-latest
+
     steps:
-      - run: echo "Hello World!"
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Google Cloud SDK
+      uses: docker://google/cloud-sdk:alpine
+      with:
+        entrypoint: /bin/sh
+        args: -c 'echo "$GCP_SA_KEY" > /tmp/keyfile.json && gcloud auth activate-service-account --key-file=/tmp/keyfile.json'
+
+    - name: Deploy Cloud Function
+      run: |
+        echo "Hello world!"
+        # gcloud functions deploy yourFunctionName \
+        #   --runtime python311 \
+        #   --trigger-http \
+        #   --allow-unauthenticated \
+        #   --project $GCP_PROJECT_ID
+      env:
+        GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+        GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
