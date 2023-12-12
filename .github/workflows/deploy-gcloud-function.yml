@@ -1,0 +1,10 @@
+name: deploy-to-gcloud
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  say-hello:
+    runs-on: google/cloud-sdk
+    run: echo "Hello World!"
