@@ -23,12 +23,15 @@ jobs:
 
     - name: Deploy Cloud Function
       run: |
-        echo "Hello world!"
-        # gcloud functions deploy yourFunctionName \
-        #   --runtime python311 \
-        #   --trigger-http \
-        #   --allow-unauthenticated \
-        #   --project $GCP_PROJECT_ID
+        gcloud functions deploy function-test \
+          --runtime python311 \
+          --trigger-http \
+          --allow-unauthenticated \
+          --project $GCP_PROJECT_ID \
+          --region europe-west8 \
+          --gen2 \
+          --entry-point=get_net_salary \
+          --service-account=function-runner@net-salary-bot-fg.iam.gserviceaccount.com
       env:
         GCP_PROJECT_ID: ${{ env.GCP_PROJECT_ID }}
 
