@@ -27,7 +27,6 @@ jobs:
           --runtime python311 \
           --trigger-http \
           --allow-unauthenticated \
-          --project $GCP_PROJECT_ID \
           --region europe-west8 \
           --gen2 \
           --entry-point=get_net_salary \
